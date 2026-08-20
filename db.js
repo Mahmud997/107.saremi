@@ -1,0 +1,6 @@
+function readStore(key,fallback){try{const value=localStorage.getItem(key);return value?JSON.parse(value):fallback}catch{return fallback}}
+const DB={students:readStore('students',[]),teachers:readStore('teachers',[{name:'Алина Каримова',subject:'Информатика'},{name:'Данияр Садыков',subject:'Математика'},{name:'Мария Орлова',subject:'Английский язык'}]),news:readStore('news',[{title:'Приём на 2026/27 учебный год открыт',body:'Оставьте заявку онлайн — мы свяжемся с вами и ответим на вопросы.',date:'20 августа 2026'}]),questions:readStore('questions',[{q:'Чему равно 2 + 2?',a:['1','2','4','5'],c:2},{q:'Сколько дней в неделе?',a:['5','6','7','8'],c:2}])};
+function save(){Object.keys(DB).forEach(key=>localStorage.setItem(key,JSON.stringify(DB[key])))}
+function escapeHTML(value=''){return String(value).replace(/[&<>'\"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]))}
+function notify(message){let toast=document.querySelector('.toast');if(!toast){toast=document.createElement('div');toast.className='toast';document.body.append(toast)}toast.textContent=message;toast.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.remove('show'),3000)}
+function requireAdmin(){if(sessionStorage.getItem('schoolAdmin')!=='true'){location.href='login.html'}}
